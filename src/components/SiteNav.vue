@@ -4,6 +4,7 @@ import { RouterLink, useRoute } from 'vue-router'
 import { brandOrder, brands } from '@/brands'
 import ActionLink from '@/components/ActionLink.vue'
 import BacImage from '@/components/BacImage.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 import { useBrand } from '@/composables/useBrand'
 import { contact, mainNav } from '@/content/site'
 import type { ImageName } from '@/lib/images'
@@ -64,6 +65,8 @@ onBeforeUnmount(() => {
         </ul>
       </nav>
 
+      <ThemeToggle class="bar-theme" />
+
       <ActionLink class="btn ink cta" :to="brand.cta.to" :href="brand.cta.href">{{ brand.cta.label }}</ActionLink>
 
       <button
@@ -88,6 +91,11 @@ onBeforeUnmount(() => {
             </RouterLink>
           </li>
         </ul>
+        <!-- phones: the switch moves in here, where there is room for it -->
+        <div class="sheet-theme">
+          <span aria-hidden="true">Dark mode</span>
+          <ThemeToggle />
+        </div>
         <div class="sheet-actions">
           <RouterLink class="btn primary" to="/book-appointment">Book an appointment</RouterLink>
           <a class="btn" :href="contact.phoneHref">Call {{ contact.phone }}</a>
@@ -105,12 +113,19 @@ onBeforeUnmount(() => {
   background: var(--brand);
   color: var(--on-brand);
   padding-top: env(safe-area-inset-top, 0px);
+  /* The desktop bar scales with the window: --grow runs from 0 at 1280px wide
+     to 1px at 1440px and up, and the logo, links, button and gaps each add a
+     multiple of it. Everything fits on one line at every width in between. */
+  --grow: clamp(0px, (100vw - 1280px) / 160, 1px);
 }
 .bar {
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: calc(1rem + var(--grow) * 6.4);
   height: var(--nav-h);
+  /* On wide screens the bar runs a little wider than the page content, which
+     is what gives the links and logo room to be this size. */
+  max-width: 1400px;
 }
 
 /* logo: four stacked, one visible */
@@ -121,7 +136,7 @@ onBeforeUnmount(() => {
   border-radius: 6px;
 }
 .logo {
-  height: 40px;
+  height: calc(44px + var(--grow) * 4);
   width: auto;
   border-radius: 6px;
   border: 2px solid rgba(0, 0, 0, 0.8);
@@ -149,7 +164,7 @@ onBeforeUnmount(() => {
 }
 .links ul {
   display: flex;
-  gap: 1.2rem;
+  gap: calc(1rem + var(--grow) * 3.2);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -158,7 +173,7 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  font-size: 0.88rem;
+  font-size: calc(0.88rem + var(--grow) * 1.6);
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -173,14 +188,29 @@ onBeforeUnmount(() => {
   border-color: var(--on-brand);
 }
 
+.links .dot {
+  width: 11px;
+  height: 11px;
+}
+
 .cta {
   flex: none;
   white-space: nowrap;
+  font-size: calc(0.9rem + var(--grow) * 1.6);
+}
+/* The bar is the same in both themes: black on the brand colour. */
+.nav .btn.ink {
+  background: var(--on-brand);
+  border-color: var(--on-brand);
+  color: #fff;
 }
 .nav .btn.ink:hover {
   background: #fff;
   border-color: #fff;
-  color: var(--ink);
+  color: var(--on-brand);
+}
+.sheet-theme {
+  display: none;
 }
 
 .burger {
@@ -212,14 +242,17 @@ onBeforeUnmount(() => {
   display: none;
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 1279px) {
   .links {
     display: none;
   }
-  .cta {
+  .bar-theme {
     margin-left: auto;
+  }
+  .cta {
     min-height: 44px;
     padding: 0.6em 1em;
+    font-size: 0.9rem;
   }
   .burger {
     display: block;
@@ -228,7 +261,7 @@ onBeforeUnmount(() => {
     gap: 0.5rem;
   }
   .logo {
-    height: 36px;
+    height: 40px;
   }
   .sheet {
     display: block;
@@ -284,10 +317,27 @@ onBeforeUnmount(() => {
   .sheet-actions {
     grid-template-columns: 1fr;
   }
+  /* no room in the bar: the switch is the last row of the menu */
+  .bar-theme {
+    display: none;
+  }
+  .cta {
+    margin-left: auto;
+  }
+  .sheet-theme {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 60px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 700;
+    --tt-on: var(--bg);
+  }
 }
 @media (max-width: 400px) {
   .logo {
-    height: 32px;
+    height: 35px;
   }
   .cta,
   .burger {

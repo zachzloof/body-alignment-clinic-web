@@ -8,7 +8,9 @@ import { contact, mainNav, site, social } from '@/content/site'
   <footer class="footer on-ink">
     <div class="wrap cols">
       <div class="brand">
-        <BacImage class="tss" name="tss-white" alt="Team Straight Spine" sizes="120px" />
+        <!-- white artwork on the dark footer, black on the light one -->
+        <BacImage class="tss for-light" name="tss-white" alt="Team Straight Spine" sizes="120px" />
+        <BacImage class="tss for-dark" name="tss-black" alt="Team Straight Spine" sizes="120px" />
         <p>{{ site.name }} · {{ site.alternateName }}. {{ site.tagline }}</p>
         <RouterLink class="btn primary" to="/book-appointment">Book an appointment</RouterLink>
       </div>
@@ -59,8 +61,8 @@ import { contact, mainNav, site, social } from '@/content/site'
 
 <style scoped>
 .footer {
-  background: var(--ink);
-  color: #fff;
+  background: var(--panel);
+  color: var(--on-panel);
   border-top: 8px solid var(--brand);
 }
 .cols {
@@ -75,7 +77,7 @@ h2 {
   text-transform: uppercase;
   line-height: 1.4;
   margin: 0 0 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--on-panel-muted);
 }
 p,
 li,
@@ -100,7 +102,7 @@ a:not(.btn) {
   transition: color 0.15s;
 }
 a:not(.btn):hover {
-  color: var(--brand);
+  color: var(--panel-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -110,24 +112,32 @@ a:not(.btn):hover {
 .brand p {
   margin: 0.8rem 0 1.2rem;
   max-width: 30em;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--on-panel-muted);
 }
 .tss {
   width: 86px;
   height: auto;
+  background: none !important;
+}
+.tss.for-dark,
+:global(:root[data-theme='dark'] .footer .tss.for-light) {
+  display: none;
+}
+:global(:root[data-theme='dark'] .footer .tss.for-dark) {
+  display: block;
 }
 .footer .btn.primary:hover {
-  background: #fff;
-  border-color: #fff;
-  color: var(--ink);
+  background: var(--on-panel);
+  border-color: var(--on-panel);
+  color: var(--panel);
 }
 .legal {
   padding-block: 1.2rem calc(1.4rem + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid var(--panel-line);
 }
 .legal p {
   font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--on-panel-muted);
 }
 @media (max-width: 1000px) {
   .cols {

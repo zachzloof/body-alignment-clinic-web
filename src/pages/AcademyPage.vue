@@ -56,7 +56,7 @@ const dayMailto = `${contact.emailHref}?subject=${encodeURIComponent(academy.day
       <div class="head"><h2 id="incl-h">What’s included</h2></div>
       <ul v-reveal="'stagger'" class="incl">
         <li v-for="i in academy.included" :key="i.text">
-          <BacImage :name="i.icon" alt="" sizes="140px" />
+          <BacImage :name="i.icon" :class="{ colour: i.colour }" alt="" sizes="140px" />
           <b>{{ i.text }}</b>
         </li>
       </ul>
@@ -213,8 +213,8 @@ const dayMailto = `${contact.emailHref}?subject=${encodeURIComponent(academy.day
   align-items: center;
   padding: 2rem;
   border-radius: 20px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--panel);
+  color: var(--on-panel);
 }
 .shadow h2 {
   font-size: 1.6rem;
@@ -222,7 +222,7 @@ const dayMailto = `${contact.emailHref}?subject=${encodeURIComponent(academy.day
 }
 .shadow p {
   margin: 0.5rem 0 0;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--on-panel-muted);
 }
 .shadow .price {
   font-family: var(--display);
@@ -236,9 +236,9 @@ const dayMailto = `${contact.emailHref}?subject=${encodeURIComponent(academy.day
   justify-items: end;
 }
 .shadow .btn.primary:hover {
-  background: #fff;
-  border-color: #fff;
-  color: var(--ink);
+  background: var(--on-panel);
+  border-color: var(--on-panel);
+  color: var(--panel);
 }
 
 @media (max-width: 860px) {

@@ -19,7 +19,7 @@ export const createApp = ViteSSG(
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
         const samePage = to.path === from.path
         // offset clears the sticky nav
-        return { el: to.hash, top: 86, behavior: samePage && !reduce ? 'smooth' : 'auto' }
+        return { el: to.hash, top: 96, behavior: samePage && !reduce ? 'smooth' : 'auto' }
       }
       if (to.path === from.path) return false
       return { top: 0 }

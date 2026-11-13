@@ -70,7 +70,7 @@ const tag = (key: BrandKey) => services.find((s) => s.brand === key)?.tag
   padding: 0;
 }
 .others li {
-  --focus: var(--ink);
+  --focus: #0d0f12;
   display: grid;
   gap: 1.4rem;
   align-content: space-between;
@@ -95,10 +95,16 @@ const tag = (key: BrandKey) => services.find((s) => s.brand === key)?.tag
   align-items: center;
   gap: 0.6rem 1.1rem;
 }
+/* black on the brand colour in both themes */
+.others .btn.ink {
+  background: #0d0f12;
+  border-color: #0d0f12;
+  color: #fff;
+}
 .others .btn.ink:hover {
   background: #fff;
   border-color: #fff;
-  color: var(--ink);
+  color: #0d0f12;
 }
 .more {
   font-family: var(--display);

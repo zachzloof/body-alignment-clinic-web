@@ -10,6 +10,10 @@
  *   - Hyper 8 red: mock #E8141C gave black text 4.16:1, now #F22A30 (4.71:1).
  *   - Clinic blue "deep": mock #0A7FA6 gave 4.11:1 on the soft band, now #08739A.
  *
+ * Each brand also carries a dark-theme pair (`deepDark`, `softDark`). The
+ * clinic, Hyper 8 and Academy values are the mock's; Pilates follows the same
+ * recipe. The flood colour itself is the same in both themes.
+ *
  * Keep this file free of imports so Node can load it directly for the
  * contrast check.
  */
@@ -35,6 +39,10 @@ export interface Brand {
   deep: string
   /** pale tint for alternate section bands */
   soft: string
+  /** dark theme: brighter shade for small text and focus rings on near-black */
+  deepDark: string
+  /** dark theme: deep tint for alternate section bands */
+  softDark: string
   /** text colour on top of `colour` */
   onBrand: string
   /**
@@ -51,6 +59,12 @@ export interface Brand {
 
 export const INK = '#0d0f12'
 
+/** The neutral tokens of each theme, mirrored from styles/base.css for the contrast check. */
+export const neutrals = {
+  light: { bg: '#ffffff', bg2: '#f5f6f8', ink: '#0d0f12', ink2: '#55606b', panel: '#0d0f12', onPanel: '#ffffff', onPanelMutedAlpha: 75 },
+  dark: { bg: '#0f1114', bg2: '#171a1f', ink: '#f1f3f5', ink2: '#a1abb5', panel: '#f1f3f5', onPanel: '#0f1114', onPanelMutedAlpha: 74 },
+} as const
+
 export const brands: Record<BrandKey, Brand> = {
   clinic: {
     key: 'clinic',
@@ -59,6 +73,8 @@ export const brands: Record<BrandKey, Brand> = {
     colour: '#01b1e5',
     deep: '#08739a',
     soft: '#e4f6fc',
+    deepDark: '#4fcbf0',
+    softDark: '#10303c',
     onBrand: INK,
     mute: 82,
     logo: 'logo-clinic',
@@ -72,6 +88,8 @@ export const brands: Record<BrandKey, Brand> = {
     colour: '#4acdb7',
     deep: '#0f766a',
     soft: '#e0f7f2',
+    deepDark: '#5fd9c4',
+    softDark: '#0f302b',
     onBrand: INK,
     mute: 82,
     logo: 'banner-pilates',
@@ -85,6 +103,8 @@ export const brands: Record<BrandKey, Brand> = {
     colour: '#f22a30',
     deep: '#b10d13',
     soft: '#fde9ea',
+    deepDark: '#ff6b70',
+    softDark: '#3a1214',
     onBrand: INK,
     mute: 100,
     logo: 'logo-hyper8',
@@ -98,6 +118,8 @@ export const brands: Record<BrandKey, Brand> = {
     colour: '#ffe600',
     deep: '#7a6c00',
     soft: '#fff9c4',
+    deepDark: '#ffe600',
+    softDark: '#3a3500',
     onBrand: INK,
     mute: 82,
     logo: 'logo-academy',
@@ -108,12 +130,17 @@ export const brands: Record<BrandKey, Brand> = {
 
 export const brandOrder: BrandKey[] = ['clinic', 'pilates', 'hyper8', 'academy']
 
-/** CSS custom properties for a brand, applied to the app root. */
+/**
+ * CSS custom properties for a brand, applied to the app root. The stylesheet
+ * resolves --brand-deep and --brand-soft from the light or dark pair.
+ */
 export function brandVars(brand: Brand): Record<string, string> {
   return {
     '--brand': brand.colour,
-    '--brand-deep': brand.deep,
-    '--brand-soft': brand.soft,
+    '--brand-deep-light': brand.deep,
+    '--brand-soft-light': brand.soft,
+    '--brand-deep-dark': brand.deepDark,
+    '--brand-soft-dark': brand.softDark,
     '--on-brand': brand.onBrand,
     '--on-brand-muted': `color-mix(in srgb, ${brand.onBrand} ${brand.mute}%, ${brand.colour})`,
   }

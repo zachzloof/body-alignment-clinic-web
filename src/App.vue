@@ -14,9 +14,9 @@ const route = useRoute()
 const router = useRouter()
 
 // ----- the colour system -----
-// The route's sub-brand becomes four CSS custom properties on the app root.
+// The route's sub-brand becomes CSS custom properties on the app root.
 // Everything on the page reads those, so nothing else needs to know which
-// brand is active.
+// brand is active. The light/dark theme is separate: see useTheme.ts.
 const brand = useBrand()
 const vars = computed(() => brandVars(brand.value))
 

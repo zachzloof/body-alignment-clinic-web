@@ -57,7 +57,9 @@ iframe {
   min-height: 800px;
   border: 1.5px solid var(--line);
   border-radius: 20px;
-  background: var(--bg);
+  /* Acuity's diary is a light page whichever theme the site is in */
+  background: #fff;
+  color-scheme: light;
 }
 p {
   margin: 0;

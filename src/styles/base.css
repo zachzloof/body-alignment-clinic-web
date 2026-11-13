@@ -3,8 +3,13 @@
  * "Concept 4, Colour" mock: black type on flat brand colour, Sora for display,
  * Manrope for body, generous rounded blocks.
  *
- * The four --brand* tokens are NOT set here. They are written onto .app from
+ * The brand tokens are NOT set here. They are written onto .app from
  * src/brands.ts, driven by the current route (see App.vue).
+ *
+ * Light and dark: <html data-theme> is set before first paint by the inline
+ * script in index.html and flipped by the switch in the nav (see
+ * composables/useTheme.ts). The neutral tokens below swap; the brand colour
+ * itself, and everything sitting on it (nav, hero, tiles), stays the same.
  */
 
 /* Registering the brand tokens as colours lets them tween when the route
@@ -20,8 +25,17 @@
   --ink: #0d0f12;
   --ink2: #55606b;
   --line: #e2e6ea;
+  --line-strong: #c5ccd3;
+  --danger: #b3261e;
   --on-brand: #0d0f12;
   --on-brand-muted: #0d0f12;
+
+  /* The inverted blocks (footer, offer panels): dark on the light theme,
+     light on the dark theme. */
+  --panel: #0d0f12;
+  --on-panel: #ffffff;
+  --on-panel-muted: rgba(255, 255, 255, 0.75);
+  --panel-line: rgba(255, 255, 255, 0.14);
 
   --display: 'Sora Variable', 'Sora', system-ui, sans-serif;
   --body: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
@@ -29,13 +43,29 @@
   --maxw: 1240px;
   --gl: max(16px, env(safe-area-inset-left, 0px));
   --gr: max(16px, env(safe-area-inset-right, 0px));
-  --nav-h: 70px;
+  --nav-h: 80px;
 
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   --ease-press: cubic-bezier(0.3, 0, 0.3, 1);
 }
-@media (max-width: 1040px) {
-  :root { --nav-h: 62px; }
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1114;
+  --bg2: #171a1f;
+  --ink: #f1f3f5;
+  --ink2: #a1abb5;
+  --line: #272c33;
+  --line-strong: #3d444d;
+  --danger: #ff8f88;
+
+  --panel: #f1f3f5;
+  --on-panel: #0f1114;
+  --on-panel-muted: rgba(15, 17, 20, 0.74);
+  --panel-line: rgba(15, 17, 20, 0.14);
+}
+/* matches the breakpoint where SiteNav.vue switches to the menu button */
+@media (max-width: 1279px) {
+  :root { --nav-h: 66px; }
 }
 
 *,
@@ -90,6 +120,16 @@ p { text-wrap: pretty; }
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  /* App.vue supplies a light and a dark value for these; the theme picks. */
+  --brand-deep: var(--brand-deep-light);
+  --brand-soft: var(--brand-soft-light);
+  /* accent for text on the inverted blocks */
+  --panel-accent: var(--brand);
+}
+:root[data-theme='dark'] .app {
+  --brand-deep: var(--brand-deep-dark);
+  --brand-soft: var(--brand-soft-dark);
+  --panel-accent: var(--brand-deep-light);
 }
 .app > main { flex: 1; }
 .app > main:focus { outline: none; }
@@ -116,7 +156,7 @@ p { text-wrap: pretty; }
   z-index: 100;
   transform: translateY(-200%);
   background: var(--ink);
-  color: #fff;
+  color: var(--bg);
   padding: 0.7em 1.1em;
   border-radius: 10px;
   font-family: var(--display);
@@ -192,7 +232,7 @@ mark {
 .btn[aria-disabled='true'] { opacity: 0.6; cursor: progress; }
 .btn .ext { font-size: 0.85em; }
 
-/* focus: brand-deep on white, ink on the brand colour (set by .on-brand) */
+/* focus: brand-deep on the page, ink on the brand colour (set by .on-brand) */
 :focus-visible {
   outline: 3px solid var(--focus, var(--brand-deep));
   outline-offset: 3px;
@@ -200,7 +240,7 @@ mark {
 }
 .btn:focus-visible { border-radius: 12px; }
 .on-brand { --focus: var(--on-brand); }
-.on-ink { --focus: #ffffff; }
+.on-ink { --focus: var(--on-panel); }
 
 /* ---------- sections ---------- */
 .block { padding-block: 4.5rem; }
@@ -272,6 +312,9 @@ mark {
   .gallery .pic:not(:first-child) { aspect-ratio: 4/3; }
 }
 
+/* The line icons are black artwork on transparent; flip them on dark. */
+:root[data-theme='dark'] .incl .pic:not(.colour) img { filter: invert(1); }
+
 /* ---------- forms ---------- */
 .field { display: grid; gap: 0.4rem; }
 .field label,
@@ -294,7 +337,7 @@ mark {
 .field textarea { min-height: 7.5rem; resize: vertical; line-height: 1.5; }
 .field input:hover,
 .field select:hover,
-.field textarea:hover { border-color: #c5ccd3; }
+.field textarea:hover { border-color: var(--line-strong); }
 .field input:focus-visible,
 .field select:focus-visible,
 .field textarea:focus-visible {
@@ -303,9 +346,9 @@ mark {
   border-color: var(--ink);
   border-radius: 12px;
 }
-.field [aria-invalid='true'] { border-color: #b3261e; }
+.field [aria-invalid='true'] { border-color: var(--danger); }
 .field .error {
-  color: #b3261e;
+  color: var(--danger);
   font-size: 0.88rem;
   font-weight: 600;
   display: flex;

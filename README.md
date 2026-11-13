@@ -9,7 +9,7 @@ npm install
 npm run dev        # http://localhost:5173
 npm run build      # type-check, prerender every page to dist/, write sitemap + robots
 npm run preview    # serve dist/ locally
-npm run check:contrast   # WCAG AA check for text on all four brand colours
+npm run check:contrast   # WCAG AA check for text on all four brand colours, light and dark
 ```
 
 `dev` and `build` first run `npm run images`, which turns the originals in `content/images/` into responsive AVIF and WebP files in `public/img/` (gitignored). The first run takes a few minutes; later runs only process what changed.
@@ -20,11 +20,21 @@ One mechanism, three files:
 
 1. A route declares its sub-brand: `meta: { brand: 'hyper8' }` in [src/router/routes.ts](src/router/routes.ts).
 2. [src/brands.ts](src/brands.ts) holds each brand's colours, nav logo and primary call to action.
-3. [src/App.vue](src/App.vue) writes the active brand's colours onto the app root as CSS custom properties (`--brand`, `--brand-deep`, `--brand-soft`). Every component reads those.
+3. [src/App.vue](src/App.vue) writes the active brand's colours onto the app root as CSS custom properties (`--brand`, plus a light and a dark value for `--brand-deep` and `--brand-soft`). Every component reads those.
 
 To add a page, add a route with a `brand`. Nothing else needs to know.
 
 Route changes run through [src/lib/viewTransition.ts](src/lib/viewTransition.ts): a change of brand floods the new colour out from the point tapped; same-brand navigation cross-fades.
+
+### Light and dark
+
+The switch in the nav (inside the menu on phones) flips between a light and a dark theme. The choice is saved in the browser; until a visitor chooses, the site follows their device setting.
+
+- The theme is the `data-theme` attribute on `<html>`, set before first paint by the inline script in [index.html](index.html) and changed by [src/composables/useTheme.ts](src/composables/useTheme.ts).
+- [src/styles/base.css](src/styles/base.css) swaps the neutral tokens (`--bg`, `--ink`, `--line` and so on). The brand colour, and everything sitting on it, is the same in both themes.
+- Each brand in [src/brands.ts](src/brands.ts) has a dark pair (`deepDark`, `softDark`) for small text and section bands. `npm run check:contrast` covers both themes.
+
+To ship a single theme once the client has chosen, remove `<ThemeToggle>` from [src/components/SiteNav.vue](src/components/SiteNav.vue) and replace the inline script with a fixed `data-theme` on `<html>`.
 
 ## Where things live
 

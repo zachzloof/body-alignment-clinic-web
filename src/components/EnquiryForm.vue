@@ -217,7 +217,7 @@ function editAgain() {
   justify-items: start;
 }
 .submit .error {
-  color: #b3261e;
+  color: var(--danger);
   font-weight: 600;
   font-size: 0.92rem;
   margin: 0;

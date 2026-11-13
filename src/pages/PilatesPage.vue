@@ -197,12 +197,12 @@ import { imageUrl } from '@/lib/images'
   align-items: center;
   padding: 2rem;
   border-radius: 20px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--panel);
+  color: var(--on-panel);
 }
 .offer .eyebrow {
   margin: 0 0 0.6rem;
-  color: var(--brand);
+  color: var(--panel-accent);
 }
 .offer h2 {
   font-size: clamp(1.4rem, 2.6vw, 2rem);
@@ -210,9 +210,9 @@ import { imageUrl } from '@/lib/images'
   max-width: 24em;
 }
 .offer .btn.primary:hover {
-  background: #fff;
-  border-color: #fff;
-  color: var(--ink);
+  background: var(--on-panel);
+  border-color: var(--on-panel);
+  color: var(--panel);
 }
 
 @media (max-width: 760px) {

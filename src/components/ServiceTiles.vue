@@ -32,7 +32,7 @@ import { services } from '@/content/shared'
   gap: 0.9rem;
 }
 .tile {
-  --focus: var(--ink);
+  --focus: #0d0f12;
   display: grid;
   grid-template-rows: auto 1fr;
   text-decoration: none;

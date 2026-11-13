@@ -1,6 +1,36 @@
 import { nextTick } from 'vue'
 import type { Router } from 'vue-router'
 
+const supported = (): boolean =>
+  typeof document.startViewTransition === 'function' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Aim the flood animation (see `html.vt-flood` in styles/base.css) at a point in the viewport. */
+function aimFlood(x: number, y: number): void {
+  const root = document.documentElement
+  const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
+  root.style.setProperty('--vt-x', `${x}px`)
+  root.style.setProperty('--vt-y', `${y}px`)
+  root.style.setProperty('--vt-r', `${Math.ceil(radius)}px`)
+}
+
+/**
+ * Run `update` (a synchronous DOM change) and flood the result outward from
+ * the centre of `el`. Used by the light/dark switch. Where view transitions
+ * are missing, or the visitor prefers reduced motion, the change is instant.
+ */
+export function floodFrom(el: Element, update: () => void): void {
+  if (!supported()) {
+    update()
+    return
+  }
+  const root = document.documentElement
+  const r = el.getBoundingClientRect()
+  aimFlood(r.left + r.width / 2, r.top + r.height / 2)
+  root.classList.add('vt-flood')
+  const transition = document.startViewTransition(update)
+  void transition.finished.finally(() => root.classList.remove('vt-flood'))
+}
+
 /**
  * The site's signature moment: when a navigation changes sub-brand, the new
  * page (and its colour) floods outward from the point the visitor tapped.
@@ -12,7 +42,6 @@ import type { Router } from 'vue-router'
  */
 export function installViewTransitions(router: Router): void {
   const root = document.documentElement
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   // Where the flood starts: the last tap/click, or the focused element when
   // the keyboard was used.
@@ -31,16 +60,10 @@ export function installViewTransitions(router: Router): void {
   router.beforeResolve((to, from) => {
     const firstLoad = from.matched.length === 0
     if (firstLoad || to.path === from.path) return
-    if (typeof document.startViewTransition !== 'function' || reducedMotion.matches) return
+    if (!supported()) return
 
     const flood = to.meta.brand !== from.meta.brand
-    if (flood) {
-      const { x, y } = origin
-      const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
-      root.style.setProperty('--vt-x', `${x}px`)
-      root.style.setProperty('--vt-y', `${y}px`)
-      root.style.setProperty('--vt-r', `${Math.ceil(radius)}px`)
-    }
+    if (flood) aimFlood(origin.x, origin.y)
     root.classList.toggle('vt-flood', flood)
 
     // The browser snapshots the old page, then we let the router continue and

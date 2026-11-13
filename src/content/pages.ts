@@ -187,7 +187,8 @@ export const academy = {
     { icon: 'icon-mortarboard' as ImageName, text: '1-2-1 tuition with Head Therapist Sam Singh' },
     { icon: 'tss-black' as ImageName, text: 'Access to group learning' },
     { icon: 'icon-video' as ImageName, text: 'Follow-up video call and support' },
-    { icon: 'logo-academy' as ImageName, text: 'Use of the BAC training accreditation logo on all social platforms' },
+    // `colour` marks full-colour artwork: the black line icons are flipped to white on the dark theme, this is not
+    { icon: 'logo-academy' as ImageName, text: 'Use of the BAC training accreditation logo on all social platforms', colour: true },
   ],
   photos: [
     { image: 'academy-1' as ImageName, alt: 'Sam teaching a group of students seated around treatment couches' },
