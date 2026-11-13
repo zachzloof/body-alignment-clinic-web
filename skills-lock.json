@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "skills": {
+    "vite": {
+      "source": "onmax/nuxt-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vite/SKILL.md",
+      "computedHash": ""
+    },
+    "vue": {
+      "source": "onmax/nuxt-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vue/SKILL.md",
+      "computedHash": ""
+    },
+    "vue-router-best-practices": {
+      "source": "onmax/nuxt-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vue-router-best-practices/SKILL.md",
+      "computedHash": "dc4999e700e4d0c926f945a6adb44869073f636d537ebbc1d4750c9c1d107923"
+    },
+    "vueuse-functions": {
+      "source": "onmax/nuxt-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vueuse-functions/SKILL.md",
+      "computedHash": "360069ca3886cce547129e45eaf9a57ac566a09f2f82a02228536e682b5bc900"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": ""
+    }
+  }
+}
