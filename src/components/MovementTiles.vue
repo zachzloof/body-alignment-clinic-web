@@ -6,7 +6,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
  * "Jump" hops, "Push" shoves right, "Rotate" spins, and so on.
  *
  * They play once in sequence as the row scrolls into view, and again on
- * hover or tap. With reduced motion (or no JavaScript) they are plain tiles.
+ * hover or touch (pointerenter fires for both). With reduced motion (or no JavaScript) they are plain tiles.
  */
 const props = defineProps<{ movements: string[] }>()
 
@@ -54,7 +54,6 @@ onBeforeUnmount(() => {
       :key="m"
       :class="[slug(m), { go: active.has(i) }]"
       @pointerenter="play(i)"
-      @click="play(i)"
     >
       <span>{{ m }}</span>
     </li>

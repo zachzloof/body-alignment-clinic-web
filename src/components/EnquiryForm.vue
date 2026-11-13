@@ -152,6 +152,7 @@ function editAgain() {
         v-model="values[f.name]"
         :name="f.name"
         rows="5"
+        autocomplete="off"
         required
         :placeholder="f.placeholder"
         :aria-invalid="errors[f.name] ? 'true' : undefined"

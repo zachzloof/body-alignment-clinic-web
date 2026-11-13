@@ -63,6 +63,13 @@ button,
 input,
 select,
 textarea { font: inherit; color: inherit; }
+/* no double-tap-to-zoom delay on anything tappable */
+a,
+button,
+summary,
+input,
+select,
+textarea { touch-action: manipulation; }
 ::selection { background: var(--brand); color: var(--on-brand); }
 
 h1,
@@ -278,7 +285,8 @@ mark {
   padding: 0.75em 0.9em;
   /* 16px minimum stops iOS zooming the page when a field is focused */
   font-size: 1rem;
-  background: var(--bg);
+  color: var(--ink);
+  background-color: var(--bg);
   border: 2px solid var(--line);
   border-radius: 12px;
   transition: border-color 0.15s;

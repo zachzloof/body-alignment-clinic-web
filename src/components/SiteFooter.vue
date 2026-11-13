@@ -2,8 +2,6 @@
 import { RouterLink } from 'vue-router'
 import BacImage from '@/components/BacImage.vue'
 import { contact, mainNav, site, social } from '@/content/site'
-
-const year = new Date().getFullYear()
 </script>
 
 <template>
@@ -54,7 +52,7 @@ const year = new Date().getFullYear()
       </div>
     </div>
     <div class="wrap legal">
-      <p>© {{ year }} {{ site.name }}</p>
+      <p>© {{ site.name }}</p>
     </div>
   </footer>
 </template>

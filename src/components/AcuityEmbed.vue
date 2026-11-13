@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import { onMounted } from 'vue'
 
 /**
@@ -6,7 +7,7 @@ import { onMounted } from 'vue'
  * iframe plus their small embed script, which resizes the frame to fit.
  * The link underneath is there for anyone whose browser blocks the frame.
  */
-defineProps<{
+const props = defineProps<{
   /** the diary URL, from content/site.ts */
   src: string
   /** accessible name for the frame, e.g. "Book in with Sam" */
@@ -14,6 +15,14 @@ defineProps<{
 }>()
 
 const SCRIPT = 'https://embed.acuityscheduling.com/js/embed.js'
+
+// start connecting to Acuity while the visitor is still reading the top of the page
+useHead({
+  link: [
+    { rel: 'preconnect', href: new URL(props.src).origin },
+    { rel: 'preconnect', href: new URL(SCRIPT).origin },
+  ],
+})
 
 onMounted(() => {
   if (document.querySelector(`script[src="${SCRIPT}"]`)) return
