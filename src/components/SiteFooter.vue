@@ -145,7 +145,7 @@ a:not(.btn):hover {
     gap: 1.6rem;
   }
   a:not(.btn) {
-    padding-block: 0.45rem;
+    padding-block: 0.6rem;
   }
 }
 </style>

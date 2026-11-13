@@ -43,8 +43,8 @@ import { clients } from '@/content/shared'
 .names {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.2rem 1.4rem;
-  margin: 1.2rem 0 0;
+  gap: 0 1.4rem;
+  margin: 0.9rem 0 0;
   padding: 0;
   list-style: none;
   font-family: var(--display);
@@ -54,7 +54,7 @@ import { clients } from '@/content/shared'
 }
 .names a {
   display: inline-block;
-  padding-block: 0.4rem;
+  padding-block: 0.6rem;
   text-decoration: none;
   transition: color 0.15s;
 }

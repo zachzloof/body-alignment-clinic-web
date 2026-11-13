@@ -3,10 +3,16 @@ import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 
+const OLD_ADDRESSES = ['/home', '/book-with-mason', '/body-alignment-clinic-booking-page']
+
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+  },
+  build: {
+    // one small stylesheet for the whole site, cached after the first page
+    cssCodeSplit: false,
   },
   // Every route is prerendered to its own HTML file (see src/main.ts).
   ssgOptions: {
@@ -16,5 +22,8 @@ export default defineConfig({
     // all serve this layout as-is.
     dirStyle: 'flat',
     formatting: 'minify',
+    // Prerender every real page, plus /404 for the host's not-found page.
+    // Redirect-only routes are left to the host (public/_redirects).
+    includedRoutes: (paths) => [...paths.filter((p) => !p.includes(':') && !OLD_ADDRESSES.includes(p)), '/404'],
   },
 })

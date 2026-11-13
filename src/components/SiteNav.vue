@@ -285,6 +285,19 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 400px) {
+  .logo {
+    height: 32px;
+  }
+  .cta,
+  .burger {
+    font-size: 0.84rem;
+    padding-inline: 0.75em;
+  }
+  .burger {
+    min-width: 0;
+  }
+}
 /* very narrow phones: the call to action lives in the menu instead */
 @media (max-width: 359px) {
   .cta {

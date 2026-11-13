@@ -1,0 +1,5 @@
+# Old Squarespace addresses. Netlify and Cloudflare Pages read this file;
+# on any other host, set up the same three permanent redirects there.
+/home                                 /                      301
+/book-with-mason                      /book-with-sam-mason   301
+/body-alignment-clinic-booking-page   /book-appointment      301

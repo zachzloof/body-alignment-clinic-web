@@ -71,7 +71,7 @@ li a {
   font-size: 1.1rem;
   text-decoration: none;
   display: inline-block;
-  padding-block: 0.25rem;
+  padding-block: 0.45rem;
 }
 li a:hover {
   text-decoration: underline;

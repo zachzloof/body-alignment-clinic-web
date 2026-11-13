@@ -26,6 +26,10 @@ import { social } from '@/content/site'
 </template>
 
 <style scoped>
+/* one long unbreakable word: scale it with the screen so it always fits */
+.head h2 {
+  font-size: clamp(1.3rem, 6.4vw, 2.9rem);
+}
 .ig {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
