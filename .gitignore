@@ -9,3 +9,6 @@ public/favicon-192.png
 public/apple-touch-icon.png
 *.local
 .DS_Store
+
+# browser test screenshots
+.playwright-mcp

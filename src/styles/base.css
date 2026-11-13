@@ -1,0 +1,361 @@
+/*
+ * Design system for Body Alignment Clinic, carried over from the approved
+ * "Concept 4, Colour" mock: black type on flat brand colour, Sora for display,
+ * Manrope for body, generous rounded blocks.
+ *
+ * The four --brand* tokens are NOT set here. They are written onto .app from
+ * src/brands.ts, driven by the current route (see App.vue).
+ */
+
+/* Registering the brand tokens as colours lets them tween when the route
+   changes in browsers without the View Transitions API. */
+@property --brand { syntax: '<color>'; inherits: true; initial-value: #01b1e5; }
+@property --brand-deep { syntax: '<color>'; inherits: true; initial-value: #08739a; }
+@property --brand-soft { syntax: '<color>'; inherits: true; initial-value: #e4f6fc; }
+
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --bg2: #f5f6f8;
+  --ink: #0d0f12;
+  --ink2: #55606b;
+  --line: #e2e6ea;
+  --on-brand: #0d0f12;
+  --on-brand-muted: #0d0f12;
+
+  --display: 'Sora Variable', 'Sora', system-ui, sans-serif;
+  --body: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
+
+  --maxw: 1240px;
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  --nav-h: 70px;
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-press: cubic-bezier(0.3, 0, 0.3, 1);
+}
+@media (max-width: 1040px) {
+  :root { --nav-h: 62px; }
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+img,
+video { max-width: 100%; display: block; }
+a { color: inherit; }
+button,
+input,
+select,
+textarea { font: inherit; color: inherit; }
+::selection { background: var(--brand); color: var(--on-brand); }
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.app > main { flex: 1; }
+.app > main:focus { outline: none; }
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: var(--gl);
+  padding-right: var(--gr);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: var(--ink);
+  color: #fff;
+  padding: 0.7em 1.1em;
+  border-radius: 10px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.skip:focus { transform: none; }
+
+/* ---------- type helpers ---------- */
+.eyebrow {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-deep);
+}
+mark {
+  background: var(--brand);
+  color: var(--on-brand);
+  padding: 0 0.15em;
+  border-radius: 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.lede { font-size: 1.05rem; color: var(--ink2); max-width: 40em; }
+.prose p { color: var(--ink2); margin: 0 0 1rem; font-size: 1.05rem; max-width: 40em; }
+.prose p:last-child { margin-bottom: 0; }
+.textlink {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--brand-deep);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.textlink:hover { color: var(--brand-deep); }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 44px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  padding: 0.85em 1.5em;
+  border-radius: 12px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.18s var(--ease-out),
+    border-color 0.18s var(--ease-out),
+    color 0.18s var(--ease-out),
+    transform 0.12s var(--ease-press);
+}
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn:active { transform: scale(0.97); }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.btn.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn.ink { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn.ink:hover { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.btn[disabled],
+.btn[aria-disabled='true'] { opacity: 0.6; cursor: progress; }
+.btn .ext { font-size: 0.85em; }
+
+/* focus: brand-deep on white, ink on the brand colour (set by .on-brand) */
+:focus-visible {
+  outline: 3px solid var(--focus, var(--brand-deep));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.btn:focus-visible { border-radius: 12px; }
+.on-brand { --focus: var(--on-brand); }
+.on-ink { --focus: #ffffff; }
+
+/* ---------- sections ---------- */
+.block { padding-block: 4.5rem; }
+.block + .block { border-top: 1px solid var(--line); }
+.block.band { background: var(--brand-soft); border-top: 0; }
+.block.band + .block { border-top: 0; }
+.block.tight { padding-block: 3rem; }
+@media (max-width: 700px) {
+  .block { padding-block: 3.25rem; }
+}
+
+.head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.head h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); }
+.head p { margin: 0; color: var(--ink2); max-width: 34em; }
+
+.split {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 3rem;
+  align-items: start;
+}
+.split h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); margin-top: 0.6rem; }
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+.pill {
+  display: inline-block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35em 0.8em;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--on-brand);
+  white-space: nowrap;
+}
+.pill.quiet { background: var(--bg2); color: var(--ink2); border: 1px solid var(--line); }
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.7);
+  flex: none;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 0.6rem;
+}
+/* The first photo sets the row height; the other two fill it. */
+.gallery .pic { position: relative; border-radius: 14px; min-width: 0; }
+.gallery .pic:first-child { aspect-ratio: 16/9; }
+.gallery .pic:not(:first-child) img { position: absolute; inset: 0; }
+@media (max-width: 760px) {
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .gallery .pic:first-child { grid-column: 1 / -1; }
+  .gallery .pic:not(:first-child) { aspect-ratio: 4/3; }
+}
+
+/* ---------- forms ---------- */
+.field { display: grid; gap: 0.4rem; }
+.field label,
+.field .label { font-family: var(--display); font-weight: 700; font-size: 0.9rem; }
+.field .hint { font-size: 0.85rem; color: var(--ink2); }
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75em 0.9em;
+  /* 16px minimum stops iOS zooming the page when a field is focused */
+  font-size: 1rem;
+  background: var(--bg);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  transition: border-color 0.15s;
+}
+.field textarea { min-height: 7.5rem; resize: vertical; line-height: 1.5; }
+.field input:hover,
+.field select:hover,
+.field textarea:hover { border-color: #c5ccd3; }
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 3px solid var(--brand-deep);
+  outline-offset: 1px;
+  border-color: var(--ink);
+  border-radius: 12px;
+}
+.field [aria-invalid='true'] { border-color: #b3261e; }
+.field .error {
+  color: #b3261e;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  gap: 0.4em;
+  align-items: baseline;
+}
+
+/* ---------- motion ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Fallback colour flood for browsers without view transitions */
+  @supports not (view-transition-name: none) {
+    .app { transition: --brand 0.5s ease, --brand-deep 0.5s ease, --brand-soft 0.5s ease; }
+  }
+
+  /* Scroll reveals. These classes are only ever added by the v-reveal
+     directive, after it has confirmed IntersectionObserver works and the
+     element is below the fold, so content is never hidden without a trigger. */
+  .reveal-wait:not([data-reveal='stagger']),
+  .reveal-wait[data-reveal='stagger'] > * { opacity: 0; transform: translateY(16px); }
+  .reveal-in:not([data-reveal='stagger']) { animation: rise 0.5s var(--ease-out) both; }
+  .reveal-in[data-reveal='stagger'] > * {
+    animation: rise 0.5s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+  [data-reveal='stagger'] > :nth-child(2) { --i: 1; }
+  [data-reveal='stagger'] > :nth-child(3) { --i: 2; }
+  [data-reveal='stagger'] > :nth-child(4) { --i: 3; }
+  [data-reveal='stagger'] > :nth-child(5) { --i: 4; }
+  [data-reveal='stagger'] > :nth-child(6) { --i: 5; }
+  [data-reveal='stagger'] > :nth-child(7) { --i: 6; }
+  [data-reveal='stagger'] > :nth-child(8) { --i: 7; }
+  [data-reveal='stagger'] > :nth-child(n + 9) { --i: 8; }
+
+  /* Route changes. Same brand: a quick cross-fade. New brand: the incoming
+     page floods out from the point that was tapped (see lib/viewTransition.ts). */
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 0.18s; }
+  html.vt-flood::view-transition-old(root),
+  html.vt-flood::view-transition-new(root) { mix-blend-mode: normal; }
+  html.vt-flood::view-transition-old(root) { animation: none; }
+  html.vt-flood::view-transition-new(root) { animation: flood 0.55s cubic-bezier(0.3, 0.6, 0.2, 1) both; }
+  @keyframes flood {
+    from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0px)); }
+    to { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0px)); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+  .btn { transition: none; }
+}
+@media print {
+  .reveal-wait,
+  .reveal-wait > * { opacity: 1 !important; transform: none !important; }
+}
