@@ -80,5 +80,5 @@ To replace a photo, drop the new file into `content/images/` under the same name
 7. **Opening hours.** There are none on the current site. Adding them would help the Google listing.
 8. **Treatment prices.** Acuity shows session prices (from £99) and Pilates prices (£45 and £80) but the site does not. Should it?
 9. **Sam's bio** says "a chain of clinics" across the UK, and the current site's Google description says "Upminster". Is Rainham the only location to list?
-10. **Home page heading.** "One clinic, four colours" came from the design mock rather than the clinic. Keep it, or replace it?
+10. **Home page heading.** The heading above the four service tiles, "Treat. Move. Train. Learn.", and the line beside it were written for the new site rather than taken from the clinic. Happy with them?
 11. **Acuity extras.** The clinic diary also has a "Hyper 8 Classes" category and a calendar for "Rebecca" that the site never mentions. Should either be bookable from the site?

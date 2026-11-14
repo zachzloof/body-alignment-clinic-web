@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { brands, type BrandKey } from '@/brands'
 import ClientsBand from '@/components/ClientsBand.vue'
 import ContactBand from '@/components/ContactBand.vue'
 import InstagramGrid from '@/components/InstagramGrid.vue'
@@ -9,6 +10,15 @@ import ServiceTiles from '@/components/ServiceTiles.vue'
 import TeamGrid from '@/components/TeamGrid.vue'
 import { home } from '@/content/pages'
 import { about } from '@/content/shared'
+
+// The services heading: one word per part of the business, in the same order
+// as the tiles below it, each highlighted in that part's colour.
+const verbs: { brand: BrandKey; word: string }[] = [
+  { brand: 'clinic', word: 'Treat.' },
+  { brand: 'pilates', word: 'Move.' },
+  { brand: 'hyper8', word: 'Train.' },
+  { brand: 'academy', word: 'Learn.' },
+]
 </script>
 
 <template>
@@ -20,8 +30,12 @@ import { about } from '@/content/shared'
   <section class="block" aria-labelledby="services-h">
     <div class="wrap">
       <div class="head">
-        <h2 id="services-h">One clinic, <mark>four colours</mark></h2>
-        <p>Each part of the business keeps its own colour, so you always know where you are.</p>
+        <h2 id="services-h" class="verbs">
+          <template v-for="(v, i) in verbs" :key="v.brand">
+            <mark :style="{ '--brand': brands[v.brand].colour }">{{ v.word }}</mark>{{ i < verbs.length - 1 ? ' ' : '' }}
+          </template>
+        </h2>
+        <p>Four ways to work with Sam Singh and the team in Rainham.</p>
       </div>
       <ServiceTiles />
     </div>
@@ -57,6 +71,25 @@ import { about } from '@/content/shared'
 </template>
 
 <style scoped>
+.verbs {
+  /* each word is its own block, so wrapped rows on phones keep a clear gap */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22em;
+}
+/* phones: two even rows, never three words and one */
+@media (max-width: 600px) {
+  .verbs {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+  }
+}
+.verbs mark {
+  /* black type on every colour, in both themes */
+  color: #0d0f12;
+  padding: 0.02em 0.24em 0.06em;
+  border-radius: 8px;
+}
 .prose .btn {
   margin-top: 0.4rem;
 }
