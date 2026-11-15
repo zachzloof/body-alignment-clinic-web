@@ -12,3 +12,6 @@ public/apple-touch-icon.png
 
 # browser test screenshots
 .playwright-mcp
+
+# before screenshots of the old site (kept locally, not in the repo)
+/before
